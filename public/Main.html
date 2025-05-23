@@ -1,0 +1,95 @@
+
+<!--Main.html-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GENSAPI</title>
+    <link rel="icon" type="image/png" href="/img/icono.png">
+    <link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body>
+    <header>
+        <img src="/img/gensapi_logo.png" alt="Logo" id="logo">
+        <nav>
+            <ul>
+                <li><a href="Inicio.html">Inicio</a></li>
+                <li><a href="teambuild.html">Creador de Equipos</a></li>
+                <li><a href="equipos.html">Equipos</a></li>
+                <li><a href="sesion.html">Inicio de sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br><br><br><br><br><br>
+    
+    <div class="controles">
+        <input type="text" id="buscador-nombre" placeholder="Buscar por nombre...">
+        <button onclick="ordenarPorRareza('desc')">Rareza ↑</button>
+        <button onclick="ordenarPorRareza('asc')">Rareza ↓</button>
+        <button onclick="filtrarPorRareza(5)">Filtrar rareza 5</button>
+        <button onclick="filtrarPorRareza(4)">Filtrar rareza 4</button>
+        <select id="filtro-elemento" onchange="filtrarPorElemento()">
+            <option value="">Todos los elementos</option>
+            <option value="pyro">Pyro</option>
+            <option value="hydro">Hydro</option>
+            <option value="cryo">Cryo</option>
+            <option value="geo">Geo</option>
+            <option value="anemo">Anemo</option>
+            <option value="electro">Electro</option>
+            <option value="dendro">Dendro</option>
+        </select>
+        <button onclick="resetearFiltros()" class="btn-reset">Resetear filtros</button>
+    </div>
+    
+    <div id="personajes-container"></div>
+
+    <script src="/js/main_script.js"></script>
+  
+  
+    <footer>
+    <div class="footer-container">
+        <!-- Sección principal -->
+        <div class="footer-section">
+            <div class="footer-logo">
+                <img src="/img/gensapi_logo.png" alt="GENSAPI Logo">
+            </div>
+            <h3>GENSAPI</h3>
+            <p>La primera API desarrollada para asesorar tus equipos de Genshin Impact.</p>
+            <p>Encuentra los mejores personajes y forma equipos legendarios.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div class="footer-section">
+            <h3>Enlaces Útiles</h3>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="teambuild.html">Formación de Equipos</a></li>
+                <li><a href="#personajes">Personajes</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+            </ul>
+        </div>
+
+        <!-- Contacto -->
+        <div class="footer-section">
+            <h3>Conecta con Nosotros</h3>
+            <div class="social-links">
+                <a href="#" class="social-link">Discord</a>
+                <a href="#" class="social-link">GitHub</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+            
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Tu email para actualizaciones">
+                <button class="newsletter-btn">Suscribirse</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 GENSAPI. Todos los derechos reservados.</p>
+        <p>Genshin Impact es marca registrada de miHoYo. Proyecto independiente no oficial.</p>
+    </div>
+</footer>
+</body>
+</html>

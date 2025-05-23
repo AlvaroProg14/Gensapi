@@ -1,0 +1,135 @@
+<!--equipos.html-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/icono.png">
+    <title>GENSAPI - Equipos Públicos</title>
+    <link rel="stylesheet" href="/css/equipos_estilo.css">
+</head>
+<body>
+    <header>
+        <img src="/img/gensapi_logo.png" alt="Logo" id="logo">
+        <nav>
+            <ul>
+                <li><a href="Inicio.html">Inicio</a></li>
+                <li><a href="Main.html">Personajes</a></li>
+                <li><a href="teambuild.html">Creador de Equipos</a></li>
+                <li><a href="sesion.html">Inicio de sesión</a></li>
+            </ul>
+        </nav>
+        <h1>Equipos Públicos</h1>
+    </header>
+
+    <div class="main-container">
+        <!-- Header de página -->
+        <div class="page-header">
+            <h1>🌟 Equipos Públicos</h1>
+            <p>Descubre las mejores composiciones de equipo creadas por la comunidad</p>
+        </div>
+
+        <!-- Controles de filtrado -->
+        <div class="controls-container">
+            <div class="controls-row">
+                <input type="text" id="search-input" class="search-input" placeholder="Buscar equipos por nombre o autor...">
+                
+                <select id="sort-select" class="filter-select">
+                    <option value="likes">Más gustados</option>
+                    <option value="recent">Más recientes</option>
+                    <option value="score">Mayor puntuación</option>
+                    <option value="author">Por autor</option>
+                </select>
+                
+                <select id="score-filter" class="filter-select">
+                    <option value="">Todas las puntuaciones</option>
+                    <option value="80">Excelente (80+)</option>
+                    <option value="60">Buena (60-79)</option>
+                    <option value="40">Decente (40-59)</option>
+                    <option value="0">Baja (0-39)</option>
+                </select>
+
+                <button id="reset-filters" class="filter-btn">🔄 Resetear</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading-container" style="display: none;">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <!-- Mensaje sin equipos -->
+        <div id="no-teams" class="no-teams-message" style="display: none;">
+            <h3>😊 No hay equipos públicos aún</h3>
+            <p>¡Sé el primero en compartir un equipo increíble!</p>
+            <a href="/teambuild.html" class="filter-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">
+                Crear Equipo
+            </a>
+        </div>
+
+        <!-- Grid de equipos -->
+        <div id="teams-grid" class="teams-grid">
+            <!-- Los equipos se cargarán aquí dinámicamente -->
+        </div>
+
+        <!-- Paginación -->
+        <div id="pagination" class="pagination" style="display: none;">
+            <button id="prev-page" class="pagination-btn">← Anterior</button>
+            <div id="page-numbers">
+                <!-- Los números de página se generarán dinámicamente -->
+            </div>
+            <button id="next-page" class="pagination-btn">Siguiente →</button>
+            <div id="pagination-info" class="pagination-info">
+                Página 1 de 1 (0 equipos)
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <!-- Sección principal -->
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="/img/gensapi_logo.png" alt="GENSAPI Logo">
+                </div>
+                <h3>GENSAPI</h3>
+                <p>La primera API desarrollada para asesorar tus equipos de Genshin Impact.</p>
+                <p>Encuentra los mejores personajes y forma equipos legendarios.</p>
+            </div>
+
+            <!-- Navegación -->
+            <div class="footer-section">
+                <h3>Enlaces Útiles</h3>
+                <ul>
+                    <li><a href="Inicio.html">Inicio</a></li>
+                    <li><a href="teambuild.html">Formación de Equipos</a></li>
+                    <li><a href="Main.html">Personajes</a></li>
+                    <li><a href="#soporte">Soporte</a></li>
+                </ul>
+            </div>
+
+            <!-- Contacto -->
+            <div class="footer-section">
+                <h3>Conecta con Nosotros</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link">Discord</a>
+                    <a href="#" class="social-link">GitHub</a>
+                    <a href="#" class="social-link">Twitter</a>
+                </div>
+                
+                <div class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Tu email para actualizaciones">
+                    <button class="newsletter-btn">Suscribirse</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 GENSAPI. Todos los derechos reservados.</p>
+            <p>Genshin Impact es marca registrada de miHoYo. Proyecto independiente no oficial.</p>
+        </div>
+    </footer>
+    <script src="/js/equipos.js"></script>
+   
+</body>
+</html>

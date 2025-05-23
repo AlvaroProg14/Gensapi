@@ -1,0 +1,161 @@
+<!--teambuild.html-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/icono.png">
+    <title>GENSAPI - Creador de Equipos</title>
+    <link rel="stylesheet" href="/css/teambuild_estilo.css">
+</head>
+<body>
+    <header>
+        <img src="/img/gensapi_logo.png" alt="Logo" id="logo">
+    <nav>
+        <ul>
+            <li><a href="Inicio.html">Inicio</a></li>
+            <li><a href="Main.html">Personajes</a></li>
+            <li><a href="equipos.html">Equipos</a></li>
+            <li><a href="sesion.html">Inicio de sesión</a></li>
+        </ul>
+    </nav>
+        <h1>Creador de Equipos</h1>
+    </header>
+    
+    <!-- Slots para el equipo -->
+    <div class="team-container">
+        <div class="team-slot" id="slot-1" data-slot="1">
+            <div class="slot-number">1</div>
+            <div class="empty-slot-icon">+</div>
+            <div class="slot-placeholder">Arrastra un personaje aquí</div>
+            <div class="remove-character">×</div>
+        </div>
+        <div class="team-slot" id="slot-2" data-slot="2">
+            <div class="slot-number">2</div>
+            <div class="empty-slot-icon">+</div>
+            <div class="slot-placeholder">Arrastra un personaje aquí</div>
+            <div class="remove-character">×</div>
+        </div>
+        <div class="team-slot" id="slot-3" data-slot="3">
+            <div class="slot-number">3</div>
+            <div class="empty-slot-icon">+</div>
+            <div class="slot-placeholder">Arrastra un personaje aquí</div>
+            <div class="remove-character">×</div>
+        </div>
+        <div class="team-slot" id="slot-4" data-slot="4">
+            <div class="slot-number">4</div>
+            <div class="empty-slot-icon">+</div>
+            <div class="slot-placeholder">Arrastra un personaje aquí</div>
+            <div class="remove-character">×</div>
+        </div>
+    </div>
+    
+    <!-- Contenedor para mostrar información de resonancia -->
+    <div class="resonancia-container" id="resonancia-info" style="display:none;">
+        <div class="resonancia-info">
+            <div class="resonancia-icono" id="resonancia-icono"></div>
+            <div class="resonancia-texto">
+                <div class="resonancia-titulo" id="resonancia-titulo">Resonancia Elemental</div>
+                <div class="resonancia-descripcion" id="resonancia-descripcion"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Contenedor para mostrar información de calidad del equipo -->
+    <div class="calidad-container" id="calidad-equipo" style="display:none;">
+        <div class="calidad-info">
+            <div class="calidad-icono" id="calidad-icono"></div>
+            <div class="calidad-texto">
+                <div class="calidad-titulo" id="calidad-titulo">Calidad del Equipo</div>
+                <div class="calidad-puntuacion" id="calidad-puntuacion">0</div>
+                <div class="calidad-mensaje" id="calidad-mensaje">Añade personajes para evaluar la calidad</div>
+            </div>
+        </div>
+    </div>
+    <!-- Contenedor para mostrar información de sinergia -->
+<div class="sinergia-container" id="sinergia-info" style="display:none;">
+    <div class="sinergia-info">
+        <div class="sinergia-icono" id="sinergia-icono"></div>
+        <div class="sinergia-texto">
+            <div class="sinergia-titulo" id="sinergia-titulo">Sinergia del Equipo</div>
+            <div class="sinergia-puntuacion" id="sinergia-puntuacion">0</div>
+            <div class="sinergia-mensaje" id="sinergia-mensaje">Añade personajes para evaluar la sinergia</div>
+        </div>
+    </div>
+    <div class="reacciones-encontradas" id="reacciones-encontradas">
+        <h4>Reacciones Elementales:</h4>
+        <ul id="lista-reacciones">
+            <!-- Las reacciones se añadirán dinámicamente aquí -->
+        </ul>
+    </div>
+</div>
+    
+    <!-- Controles de filtrado -->
+    <div class="controles">
+        <input type="text" id="buscador-nombre" placeholder="Buscar por nombre...">
+        <button onclick="ordenarPorRareza('desc')">Rareza ↑</button>
+        <button onclick="ordenarPorRareza('asc')">Rareza ↓</button>
+        <button onclick="filtrarPorRareza(5)">Filtrar rareza 5</button>
+        <button onclick="filtrarPorRareza(4)">Filtrar rareza 4</button>
+        <select id="filtro-elemento" onchange="filtrarPorElemento()">
+            <option value="">Todos los elementos</option>
+            <option value="pyro">Pyro</option>
+            <option value="hydro">Hydro</option>
+            <option value="cryo">Cryo</option>
+            <option value="geo">Geo</option>
+            <option value="anemo">Anemo</option>
+            <option value="electro">Electro</option>
+            <option value="dendro">Dendro</option>
+        </select>
+        <button onclick="resetearFiltros()" class="btn-reset">Resetear filtros</button>
+    </div>
+    
+    <!-- Contenedor de personajes -->
+    <div id="personajes-container"></div>
+    
+    <script type="module" src="/js/modules/main.js"></script>
+    <footer>
+    <div class="footer-container">
+        <!-- Sección principal -->
+        <div class="footer-section">
+            <div class="footer-logo">
+                <img src="/img/gensapi_logo.png" alt="GENSAPI Logo">
+            </div>
+            <h3>GENSAPI</h3>
+            <p>La primera API desarrollada para asesorar tus equipos de Genshin Impact.</p>
+            <p>Encuentra los mejores personajes y forma equipos legendarios.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div class="footer-section">
+            <h3>Enlaces Útiles</h3>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="teambuild.html">Formación de Equipos</a></li>
+                <li><a href="#personajes">Personajes</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+            </ul>
+        </div>
+
+        <!-- Contacto -->
+        <div class="footer-section">
+            <h3>Conecta con Nosotros</h3>
+            <div class="social-links">
+                <a href="#" class="social-link">Discord</a>
+                <a href="#" class="social-link">GitHub</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+            
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Tu email para actualizaciones">
+                <button class="newsletter-btn">Suscribirse</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 GENSAPI. Todos los derechos reservados.</p>
+        <p>Genshin Impact es marca registrada de miHoYo. Proyecto independiente no oficial.</p>
+    </div>
+</footer>
+</body>
+</html>

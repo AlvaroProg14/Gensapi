@@ -1,0 +1,453 @@
+<!--index.html-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/img/icono.png">
+<title>GENSAPI - Bienvenida</title>
+<style>
+/* Variables de colores */
+:root {
+    --white: #f8f9fa;
+    --gray: #e9ecef;
+    --navy: #0a192f;
+    --rose-gold: #bd8c7d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--navy);
+    color: var(--white);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Fondo estrellado con animación de aparición */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    animation: fadeInStars 3s ease-in-out 0.5s forwards;
+}
+
+@keyframes fadeInStars {
+    to {
+        opacity: 1;
+    }
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 50%;
+    animation: twinkle 4s infinite ease-in-out;
+    opacity: 0;
+    animation-fill-mode: both;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Estrellas dispersas por la pantalla */
+.stars .star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0.1s; }
+.stars .star:nth-child(2) { top: 15%; left: 30%; animation-delay: 0.3s; }
+.stars .star:nth-child(3) { top: 25%; left: 15%; animation-delay: 0.5s; }
+.stars .star:nth-child(4) { top: 35%; left: 40%; animation-delay: 0.7s; }
+.stars .star:nth-child(5) { top: 45%; left: 70%; animation-delay: 0.9s; }
+.stars .star:nth-child(6) { top: 55%; left: 25%; animation-delay: 1.1s; }
+.stars .star:nth-child(7) { top: 65%; left: 60%; animation-delay: 1.3s; }
+.stars .star:nth-child(8) { top: 75%; left: 80%; animation-delay: 1.5s; }
+.stars .star:nth-child(9) { top: 85%; left: 10%; animation-delay: 1.7s; }
+.stars .star:nth-child(10) { top: 90%; left: 50%; animation-delay: 1.9s; }
+.stars .star:nth-child(11) { top: 5%; left: 65%; animation-delay: 2.1s; }
+.stars .star:nth-child(12) { top: 20%; left: 85%; animation-delay: 2.3s; }
+.stars .star:nth-child(13) { top: 30%; left: 5%; animation-delay: 2.5s; }
+.stars .star:nth-child(14) { top: 40%; left: 90%; animation-delay: 2.7s; }
+.stars .star:nth-child(15) { top: 50%; left: 45%; animation-delay: 2.9s; }
+.stars .star:nth-child(16) { top: 60%; left: 75%; animation-delay: 3.1s; }
+.stars .star:nth-child(17) { top: 70%; left: 35%; animation-delay: 3.3s; }
+.stars .star:nth-child(18) { top: 80%; left: 55%; animation-delay: 3.5s; }
+.stars .star:nth-child(19) { top: 8%; left: 88%; animation-delay: 3.7s; }
+.stars .star:nth-child(20) { top: 18%; left: 48%; animation-delay: 3.9s; }
+
+/* Estrellas más grandes y brillantes */
+.stars .star:nth-child(3n) {
+    width: 3px;
+    height: 3px;
+    background-color: var(--gray);
+}
+
+.stars .star:nth-child(5n) {
+    width: 1px;
+    height: 1px;
+    background-color: var(--rose-gold);
+}
+
+/* Contenedor principal */
+.container {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.welcome-box {
+    background-color: rgba(10, 25, 47, 0.8);
+    border: 2px solid var(--rose-gold);
+    border-radius: 15px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(189, 140, 125, 0.2);
+    backdrop-filter: blur(8px);
+    margin-bottom: 2rem;
+    transform: translateY(30px);
+    animation: fadeInUp 1.5s ease-out 1s forwards, float 6s ease-in-out 2.5s infinite;
+    max-width: 600px;
+    width: 90%;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Animación para el texto "Bienvenido a" */
+.welcome-text {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInText 1s ease-out 1.5s forwards;
+}
+
+@keyframes fadeInText {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Contenedor del logo */
+.logo-container {
+    height: 200px;
+    width: 200px;
+    margin: 0 auto 1.5rem auto;
+    border: 2px solid var(--rose-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInLogo 1s ease-out 2s forwards;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+}
+
+@keyframes fadeInLogo {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Imagen del logo */
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover .logo-image {
+    transform: scale(1.1);
+}
+
+/* Título principal */
+h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--white), var(--rose-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(189, 140, 125, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInTitle 1s ease-out 2.5s forwards;
+}
+
+@keyframes fadeInTitle {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--gray);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSubtitle 1s ease-out 3s forwards;
+}
+
+@keyframes fadeInSubtitle {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInButtons 1s ease-out 3.5s forwards;
+}
+
+@keyframes fadeInButtons {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: transparent;
+    color: var(--white);
+    border: 2px solid var(--rose-gold);
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transform: scale(0.9);
+    animation: buttonPop 0.5s ease-out forwards;
+}
+
+.btn:nth-child(1) {
+    animation-delay: 3.7s;
+}
+
+.btn:nth-child(2) {
+    animation-delay: 3.9s;
+}
+
+@keyframes buttonPop {
+    to {
+        transform: scale(1);
+    }
+}
+
+.btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--rose-gold);
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.btn:hover {
+    color: var(--navy);
+}
+
+.btn:hover:before {
+    width: 100%;
+}
+
+/* Efecto de constelación - líneas entre estrellas */
+.constellation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInConstellation 2s ease-in-out 4s forwards;
+}
+
+@keyframes fadeInConstellation {
+    to {
+        opacity: 1;
+    }
+}
+
+.constellation-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(189, 140, 125, 0.3), transparent);
+    transform-origin: left;
+    animation: constellation-appear 2s forwards;
+    opacity: 0;
+}
+
+@keyframes constellation-appear {
+    0% { opacity: 0; }
+    100% { opacity: 0.5; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .welcome-box {
+        padding: 2rem;
+    }
+    
+    .welcome-text {
+        font-size: 1.8rem;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .logo-container {
+        height: 100px;
+        width: 100px;
+    }
+}
+</style>
+</head>
+<body>
+<!-- Fondo de estrellas -->
+<div class="stars">
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+</div>
+
+<!-- Efecto de constelación -->
+<div class="constellation">
+    <div class="constellation-line" style="top: 15%; left: 20%; width: 10%; transform: rotate(30deg);"></div>
+    <div class="constellation-line" style="top: 25%; left: 15%; width: 15%; transform: rotate(-20deg);"></div>
+    <div class="constellation-line" style="top: 45%; left: 40%; width: 30%; transform: rotate(10deg);"></div>
+    <div class="constellation-line" style="top: 65%; left: 25%; width: 35%; transform: rotate(-15deg);"></div>
+    <div class="constellation-line" style="top: 35%; left: 70%; width: 15%; transform: rotate(45deg);"></div>
+</div>
+
+<!-- Contenido principal -->
+<div class="container">
+    <div class="welcome-box">
+        <div class="welcome-text">Bienvenido a</div>
+        <div class="logo-container">
+            <img src="/img/gensapi_logo.png" alt="GENSAPI Logo" class="logo-image">
+        </div>
+        <p class="subtitle">La primera API desarrollada para asesorar tus equipos de Genshin Impact</p>
+        <p class="subtitle">¡Investiga sobre los personajes del juego y forma un equipo con ellos!</p>
+        <div class="nav-links">
+            <a href="/Main.html" class="btn">Personajes</a>
+            <a href="/teambuild.html" class="btn">Creador de Equipos</a>
+            <a href="/equipos.html" class="btn">Equipos</a>
+        </div>  
+    </div>
+</div>
+
+<script>
+// Script para añadir efectos dinámicos
+document.addEventListener('DOMContentLoaded', function() {
+    // Crear estrellas adicionales de forma dinámica
+    const starsContainer = document.querySelector('.stars');
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 5 + 1}s`;
+        
+        // Tamaños variados
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        
+        // Algunos con brillo especial
+        if (Math.random() > 0.8) {
+            star.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.8)';
+        }
+        
+        starsContainer.appendChild(star);
+    }
+    
+    // Crear líneas de constelación adicionales
+    const constellation = document.querySelector('.constellation');
+    for (let i = 0; i < 8; i++) {
+        const line = document.createElement('div');
+        line.classList.add('constellation-line');
+        line.style.top = `${Math.random() * 100}%`;
+        line.style.left = `${Math.random() * 100}%`;
+        line.style.width = `${Math.random() * 20 + 5}%`;
+        line.style.transform = `rotate(${Math.random() * 360}deg)`;
+        line.style.animationDelay = `${Math.random() * 3 + 4}s`;
+        constellation.appendChild(line);
+    }
+});
+</script>
+
+</body>
+</html>

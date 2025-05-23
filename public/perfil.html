@@ -1,0 +1,559 @@
+<!--perfil.html-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/icono.png">
+    <title>Mi Perfil - GENSAPI</title>
+    <link rel="stylesheet" href="/css/perfil_estilo.css">
+</head>
+<body>
+    <header>
+        <img src="/img/gensapi_logo.png" alt="Logo" id="logo">
+        <nav>
+            <ul>
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="/Main.html">Personajes</a></li>
+                <li><a href="/teambuild.html">Creador de Equipos</a></li>
+                <li><a href="/equipos.html">Equipos</a></li>
+                <li><a href="/sesion.html">Inicio de sesión</a></li>
+            </ul>
+        </nav>
+        <h1>Mi Perfil</h1>
+    </header>
+
+    <div class="main-container">
+        <!-- Loading state -->
+        <div id="loading-state" class="loading-profile">
+            <div class="loading-spinner"></div>
+            <p>Cargando perfil...</p>
+        </div>
+
+        <!-- Profile content -->
+        <div id="profile-content" class="profile-container" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-avatar" id="user-avatar">
+                    👤
+                </div>
+                <h2 class="profile-name" id="user-name">Cargando...</h2>
+                <p class="profile-email" id="user-email">cargando@email.com</p>
+            </div>
+
+            <div class="profile-content">
+                <!-- Información básica -->
+                <div class="profile-section">
+                    <h3>📋 Información de la Cuenta</h3>
+                    <div class="profile-info">
+                        <div class="info-row">
+                            <span class="info-label">Nombre de Usuario:</span>
+                            <span class="info-value" id="info-username">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Correo Electrónico:</span>
+                            <span class="info-value" id="info-email">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Miembro desde:</span>
+                            <span class="info-value" id="info-member-since">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Estado:</span>
+                            <span class="info-value" style="color: #2ed573; font-weight: 600;">✅ Activo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="profile-section">
+                    <h3>📊 Estadísticas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number" id="teams-created">0</span>
+                            <span class="stat-label">Equipos Creados</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" id="public-teams">0</span>
+                            <span class="stat-label">Equipos Públicos</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" id="total-likes">0</span>
+                            <span class="stat-label">Likes Recibidos</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" id="days-active">0</span>
+                            <span class="stat-label">Días Activo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mejor Equipo -->
+                <div class="profile-section" id="best-team-section" style="display: none;">
+                    <h3>🏆 Mejor Equipo</h3>
+                    <div class="best-team-card" id="best-team-card">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Equipos del Usuario -->
+                <div class="profile-section">
+                    <h3>🛠️ Mis Equipos</h3>
+                    <div class="teams-section">
+                        <div class="teams-header">
+                            <select id="teams-filter">
+                                <option value="all">Todos los equipos</option>
+                                <option value="public">Solo públicos</option>
+                                <option value="private">Solo privados</option>
+                            </select>
+                            <select id="teams-sort">
+                                <option value="recent">Más recientes</option>
+                                <option value="score">Mejor puntuación</option>
+                                <option value="likes">Más populares</option>
+                            </select>
+                        </div>
+                        <div id="user-teams-container" class="user-teams-container">
+                            <div class="loading-teams">Cargando equipos...</div>
+                        </div>
+                        <button id="load-more-teams" class="load-more-btn" style="display: none;">
+                            Cargar más equipos
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="action-buttons">
+                    <a href="/teambuild.html" class="btn btn-primary">
+                        🛠️ Crear Equipo
+                    </a>
+                    <a href="/Main.html" class="btn btn-secondary">
+                        👥 Ver Personajes
+                    </a>
+                    <button class="btn btn-danger" id="logout-btn">
+                        🚪 Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error state -->
+        <div id="error-state" class="profile-container" style="display: none;">
+            <div class="profile-content" style="text-align: center;">
+                <h2>⚠️ Error</h2>
+                <p>No se pudo cargar la información del perfil.</p>
+                <div class="action-buttons">
+                    <a href="/sesion.html" class="btn btn-primary">Iniciar Sesión</a>
+                    <button class="btn btn-secondary" onclick="location.reload()">Reintentar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentUser = null;
+        let userTeams = [];
+        let currentPage = 1;
+        let hasMoreTeams = true;
+
+        // Elementos del DOM
+        const loadingState = document.getElementById('loading-state');
+        const profileContent = document.getElementById('profile-content');
+        const errorState = document.getElementById('error-state');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Función para cargar datos del perfil
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('authToken');
+                
+                if (!token) {
+                    throw new Error('No hay sesión activa');
+                }
+
+                // Cargar datos del usuario
+                const userResponse = await fetch('/api/verify-token', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!userResponse.ok) {
+                    throw new Error('Token inválido');
+                }
+
+                const userResult = await userResponse.json();
+                currentUser = userResult.user;
+                
+                // Cargar estadísticas
+                const statsResponse = await fetch('/api/users/stats', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                let stats = {};
+                if (statsResponse.ok) {
+                    stats = await statsResponse.json();
+                }
+                
+                displayProfile(currentUser, stats);
+                loadUserTeams();
+                
+            } catch (error) {
+                console.error('Error cargando perfil:', error);
+                showError();
+            }
+        }
+
+        // Función para mostrar el perfil
+        function displayProfile(user, stats = {}) {
+            // Ocultar loading y mostrar contenido
+            loadingState.style.display = 'none';
+            profileContent.style.display = 'block';
+            
+            // Actualizar información básica
+            const avatar = user.username.charAt(0).toUpperCase();
+            document.getElementById('user-avatar').textContent = avatar;
+            document.getElementById('user-name').textContent = user.username;
+            document.getElementById('user-email').textContent = user.email;
+            
+            // Actualizar información detallada
+            document.getElementById('info-username').textContent = user.username;
+            document.getElementById('info-email').textContent = user.email;
+            
+            // Formatear fecha de creación
+            const createdDate = new Date(user.createdAt || Date.now());
+            document.getElementById('info-member-since').textContent = 
+                createdDate.toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            
+            // Calcular días activo
+            const daysSinceCreation = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
+            document.getElementById('days-active').textContent = Math.max(1, daysSinceCreation);
+            
+            // Actualizar estadísticas reales
+            document.getElementById('teams-created').textContent = stats.totalTeams || 0;
+            document.getElementById('public-teams').textContent = stats.publicTeams || 0;
+            document.getElementById('total-likes').textContent = stats.totalLikes || 0;
+
+            // Mostrar mejor equipo si existe
+            if (stats.bestTeam) {
+                displayBestTeam(stats.bestTeam);
+            }
+        }
+
+        // Función para mostrar el mejor equipo
+        function displayBestTeam(bestTeam) {
+            const bestTeamSection = document.getElementById('best-team-section');
+            const bestTeamCard = document.getElementById('best-team-card');
+            
+            bestTeamCard.innerHTML = `
+                <div class="best-team-info">
+                    <h4>${bestTeam.name}</h4>
+                    <div class="best-team-stats">
+                        <span class="team-score">Puntuación: ${bestTeam.synergy?.totalScore || 0}</span>
+                        <span class="team-quality">${bestTeam.synergy?.quality || 'Sin evaluar'}</span>
+                    </div>
+                </div>
+            `;
+            
+            bestTeamSection.style.display = 'block';
+        }
+
+        // Función para cargar equipos del usuario
+        async function loadUserTeams(reset = true) {
+            try {
+                if (reset) {
+                    currentPage = 1;
+                    userTeams = [];
+                }
+
+                const token = localStorage.getItem('authToken');
+                const filter = document.getElementById('teams-filter')?.value || 'all';
+                const sort = document.getElementById('teams-sort')?.value || 'recent';
+                
+                let url = `/api/teams/my?page=${currentPage}&limit=6`;
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error cargando equipos');
+                }
+
+                const result = await response.json();
+                
+                if (reset) {
+                    userTeams = result.teams;
+                } else {
+                    userTeams = [...userTeams, ...result.teams];
+                }
+                
+                hasMoreTeams = currentPage < result.pagination.pages;
+                displayUserTeams(userTeams, filter, sort);
+                
+                // Mostrar/ocultar botón de cargar más
+                const loadMoreBtn = document.getElementById('load-more-teams');
+                if (loadMoreBtn) {
+                    loadMoreBtn.style.display = hasMoreTeams ? 'block' : 'none';
+                }
+
+            } catch (error) {
+                console.error('Error cargando equipos:', error);
+                const container = document.getElementById('user-teams-container');
+                if (container) {
+                    container.innerHTML = '<p class="error-teams">Error cargando equipos</p>';
+                }
+            }
+        }
+
+        // Función para mostrar equipos del usuario
+        function displayUserTeams(teams, filter = 'all', sort = 'recent') {
+            const container = document.getElementById('user-teams-container');
+            
+            if (!teams || teams.length === 0) {
+                container.innerHTML = `
+                    <div class="no-teams">
+                        <p>No tienes equipos guardados aún.</p>
+                        <a href="/teambuild.html" class="btn btn-primary">Crear mi primer equipo</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Filtrar equipos
+            let filteredTeams = teams;
+            if (filter === 'public') {
+                filteredTeams = teams.filter(team => team.isPublic);
+            } else if (filter === 'private') {
+                filteredTeams = teams.filter(team => !team.isPublic);
+            }
+
+            // Ordenar equipos
+            if (sort === 'score') {
+                filteredTeams.sort((a, b) => (b.synergy?.totalScore || 0) - (a.synergy?.totalScore || 0));
+            } else if (sort === 'likes') {
+                filteredTeams.sort((a, b) => b.likes - a.likes);
+            }
+
+            if (filteredTeams.length === 0) {
+                container.innerHTML = '<p class="no-teams">No hay equipos que coincidan con los filtros.</p>';
+                return;
+            }
+
+            const teamsHtml = filteredTeams.map(team => createUserTeamCard(team)).join('');
+            container.innerHTML = `<div class="teams-grid">${teamsHtml}</div>`;
+
+            // Configurar event listeners
+            setupTeamCardListeners();
+        }
+
+        // Función para crear tarjeta de equipo del usuario
+        function createUserTeamCard(team) {
+            const charactersHtml = team.characters
+                .sort((a, b) => a.slot - b.slot)
+                .map(char => `
+                    <div class="team-character">
+                        <img src="${char.characterIcon}" alt="${char.characterName}" title="${char.characterName}">
+                        <div class="character-element ${char.characterElement}"></div>
+                    </div>
+                `).join('');
+
+            const createdDate = new Date(team.createdAt).toLocaleDateString('es-ES');
+
+            return `
+                <div class="user-team-card" data-team-id="${team._id}">
+                    <div class="team-header">
+                        <h4>${team.name}</h4>
+                        <div class="team-visibility">
+                            ${team.isPublic ? '🌐' : '🔒'}
+                        </div>
+                    </div>
+                    
+                    ${team.description ? `<p class="team-description">${team.description}</p>` : ''}
+                    
+                    <div class="team-characters-grid">
+                        ${charactersHtml}
+                    </div>
+                    
+                    <div class="team-stats">
+                        <span class="team-score">Puntuación: ${team.synergy?.totalScore || 0}</span>
+                        <span class="team-likes">❤️ ${team.likes}</span>
+                    </div>
+                    
+                    <div class="team-meta">
+                        <span class="team-date">Creado: ${createdDate}</span>
+                        <span class="team-quality">${team.synergy?.quality || 'Sin evaluar'}</span>
+                    </div>
+                    
+                    <div class="team-actions">
+                        <button class="btn-edit-team" data-team-id="${team._id}">✏️ Editar</button>
+                        <button class="btn-load-team" data-team-id="${team._id}">📥 Cargar</button>
+                        <button class="btn-delete-team" data-team-id="${team._id}">🗑️ Eliminar</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Configurar event listeners para las tarjetas de equipos
+        function setupTeamCardListeners() {
+            // Botones de cargar equipo
+            document.querySelectorAll('.btn-load-team').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const teamId = e.target.dataset.teamId;
+                    window.open(`/teambuild.html?load=${teamId}`, '_blank');
+                });
+            });
+
+            // Botones de eliminar equipo
+            document.querySelectorAll('.btn-delete-team').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const teamId = e.target.dataset.teamId;
+                    if (confirm('¿Estás seguro de que quieres eliminar este equipo?')) {
+                        await deleteTeam(teamId);
+                    }
+                });
+            });
+
+            // Botones de editar (funcionalidad básica)
+            document.querySelectorAll('.btn-edit-team').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const teamId = e.target.dataset.teamId;
+                    // Por ahora, redirigir al team builder
+                    window.open(`/teambuild.html?load=${teamId}`, '_blank');
+                });
+            });
+        }
+
+        // Función para eliminar un equipo
+        async function deleteTeam(teamId) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch(`/api/teams/${teamId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    // Recargar equipos
+                    loadUserTeams();
+                    // Actualizar estadísticas
+                    loadProfile();
+                } else {
+                    const result = await response.json();
+                    alert(result.error || 'Error eliminando el equipo');
+                }
+
+            } catch (error) {
+                console.error('Error eliminando equipo:', error);
+                alert('Error de conexión');
+            }
+        }
+
+        // Función para mostrar error
+        function showError() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'block';
+            
+            // Limpiar localStorage si hay error
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+        }
+
+        // Función para cerrar sesión
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            
+            // Redirigir a login
+            window.location.href = '/sesion.html';
+        }
+
+        // Event listeners
+        logoutBtn.addEventListener('click', logout);
+
+        // Event listeners para filtros de equipos
+        document.getElementById('teams-filter')?.addEventListener('change', () => {
+            displayUserTeams(userTeams, document.getElementById('teams-filter').value, document.getElementById('teams-sort').value);
+        });
+
+        document.getElementById('teams-sort')?.addEventListener('change', () => {
+            displayUserTeams(userTeams, document.getElementById('teams-filter').value, document.getElementById('teams-sort').value);
+        });
+
+        document.getElementById('load-more-teams')?.addEventListener('click', () => {
+            currentPage++;
+            loadUserTeams(false);
+        });
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+
+    <!-- Script del header dinámico -->
+    <script>
+        // Aquí va el script del header dinámico que te di antes
+        async function updateHeaderAuth() {
+            const authLink = document.querySelector('nav ul li:last-child a');
+            
+            if (!authLink) return;
+
+            try {
+                const token = localStorage.getItem('authToken');
+                const userData = localStorage.getItem('currentUser');
+                
+                if (!token || !userData) {
+                    authLink.textContent = 'Inicio de sesión';
+                    authLink.href = '/sesion.html';
+                    return;
+                }
+
+                const response = await fetch('/api/verify-token', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    authLink.textContent = `👤 ${result.user.username}`;
+                    authLink.href = '/perfil.html';
+                    authLink.classList.add('user-profile-link');
+                } else {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('currentUser');
+                    authLink.textContent = 'Inicio de sesión';
+                    authLink.href = '/sesion.html';
+                }
+
+            } catch (error) {
+                console.error('Error verificando autenticación:', error);
+                authLink.textContent = 'Inicio de sesión';
+                authLink.href = '/sesion.html';
+            }
+        }
+
+        // Inicializar header
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', updateHeaderAuth);
+        } else {
+            updateHeaderAuth();
+        }
+    </script>
+</body>
+</html>

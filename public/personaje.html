@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/icono.png">
+    <title>Detalle de Personaje</title>
+    <link rel="stylesheet" href="/css/char_estilo.css">
+</head>
+<body>
+    <div class="page-header">
+        <h1>Detalles del Personaje</h1>
+    </div>
+    
+    <div class="character-container">
+        <!-- Carta de perfil del personaje -->
+        <div class="card character-profile">
+            <div class="character-header">
+                <img id="character-image" src="" alt="Imagen del personaje" class="character-image">
+                <div class="element-container">
+                    <img id="element-image" src="" alt="Imagen del elemento" class="element-image">
+                </div>
+            </div>
+            
+            <div class="character-info">
+                <div class="corner-decoration top-left"></div>
+                <div class="corner-decoration top-right"></div>
+                <div class="corner-decoration bottom-left"></div>
+                <div class="corner-decoration bottom-right"></div>
+                
+                <h2 id="character-name" class="character-name"></h2>
+                <div id="rarity-display" class="rarity-stars"></div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Elemento</span>
+                        <span id="character-element" class="info-value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Arma</span>
+                        <span id="character-weapon" class="info-value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Función</span>
+                        <span id="character-function" class="info-value"></span>
+                    </div>                    
+                    <div class="info-item">
+                        <span class="info-label">Fecha de Salida</span>
+                        <span id="character-date" class="info-value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Material de Ascenso</span>
+                        <div class="ascension-container">
+                            <img id="ascension-image" src="" alt="Imagen de ascenso" class="ascension-image">
+                            <span id="ascension-name" class="info-value" style="margin-left: 10px;"></span>
+                        </div>
+                    </div>
+                    <div id="artifact-container" class="info-item">
+                        <span class="info-label">Artefacto Recomendado</span>
+                        <div id="artifacts-wrapper">
+                            <!-- Los artefactos se renderizarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cartas de talentos individuales -->
+        <div id="talent1-card" class="card talent-card">
+            <div class="talents-section">
+                <h2>Ataque Normal</h2>
+                <div id="talent1-container" class="talent-content">
+                    <!-- El talento 1 se insertará aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <div id="talent2-card" class="card talent-card">
+            <div class="talents-section">
+                <h2>Habilidad Elemental</h2>
+                <div id="talent2-container" class="talent-content">
+                    <!-- El talento 2 se insertará aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <div id="talent3-card" class="card talent-card">
+            <div class="talents-section">
+                <h2>Habilidad Definitiva</h2>
+                <div id="talent3-container" class="talent-content">
+                    <!-- El talento 3 se insertará aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Carta de constelaciones -->
+        <div id="constellations-card" class="card">
+            <div class="constellations-section">
+                <h2>Constelaciones</h2>
+                <div id="constellations-container" class="constellations-grid">
+                    <!-- Las constelaciones se insertarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Script externo -->
+    <script src="/js/char_script.js"></script>
+    <footer>
+    <div class="footer-container">
+        <!-- Sección principal -->
+        <div class="footer-section">
+            <div class="footer-logo">
+                <img src="/img/gensapi_logo.png" alt="GENSAPI Logo">
+            </div>
+            <h3>GENSAPI</h3>
+            <p>La primera API desarrollada para asesorar tus equipos de Genshin Impact.</p>
+            <p>Encuentra los mejores personajes y forma equipos legendarios.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div class="footer-section">
+            <h3>Enlaces Útiles</h3>
+            <ul>
+                <li><a href="/Inicio.html">Inicio</a></li>
+                <li><a href="/teambuild.html">Formación de Equipos</a></li>
+                <li><a href="/Main.html">Personajes</a></li>
+                <li><a href="#soporte">Soporte</a></li>
+            </ul>
+        </div>
+
+        <!-- Contacto -->
+        <div class="footer-section">
+            <h3>Conecta con Nosotros</h3>
+            <div class="social-links">
+                <a href="#" class="social-link">Discord</a>
+                <a href="#" class="social-link">GitHub</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+            
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Tu email para actualizaciones">
+                <button class="newsletter-btn">Suscribirse</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 GENSAPI. Todos los derechos reservados.</p>
+        <p>Genshin Impact es marca registrada de miHoYo. Proyecto independiente no oficial.</p>
+    </div>
+</footer>
+</body>
+</html>
